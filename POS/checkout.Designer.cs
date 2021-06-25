@@ -43,7 +43,10 @@ namespace POS
             this.label3 = new System.Windows.Forms.Label();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.cancel_checkout = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.confirm_checkout = new System.Windows.Forms.Button();
+            this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.customerName = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.orderTableCheckout)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
@@ -51,6 +54,7 @@ namespace POS
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             this.tableLayoutPanel6.SuspendLayout();
+            this.tableLayoutPanel7.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -62,6 +66,7 @@ namespace POS
             this.tableLayoutPanel1.Controls.Add(this.orderTableCheckout, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel6, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel7, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -217,7 +222,7 @@ namespace POS
             this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel6.Controls.Add(this.cancel_checkout, 0, 0);
-            this.tableLayoutPanel6.Controls.Add(this.button2, 1, 0);
+            this.tableLayoutPanel6.Controls.Add(this.confirm_checkout, 1, 0);
             this.tableLayoutPanel6.Location = new System.Drawing.Point(24, 371);
             this.tableLayoutPanel6.Name = "tableLayoutPanel6";
             this.tableLayoutPanel6.RowCount = 1;
@@ -235,14 +240,50 @@ namespace POS
             this.cancel_checkout.UseVisualStyleBackColor = true;
             this.cancel_checkout.Click += new System.EventHandler(this.button1_Click);
             // 
-            // button2
+            // confirm_checkout
             // 
-            this.button2.Location = new System.Drawing.Point(194, 3);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(185, 23);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "CONFIRM";
-            this.button2.UseVisualStyleBackColor = true;
+            this.confirm_checkout.Location = new System.Drawing.Point(194, 3);
+            this.confirm_checkout.Name = "confirm_checkout";
+            this.confirm_checkout.Size = new System.Drawing.Size(185, 23);
+            this.confirm_checkout.TabIndex = 1;
+            this.confirm_checkout.Text = "CONFIRM";
+            this.confirm_checkout.UseVisualStyleBackColor = true;
+            this.confirm_checkout.Click += new System.EventHandler(this.confirm_checkout_Click);
+            // 
+            // tableLayoutPanel7
+            // 
+            this.tableLayoutPanel7.ColumnCount = 2;
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 24.60733F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 75.39267F));
+            this.tableLayoutPanel7.Controls.Add(this.label4, 0, 0);
+            this.tableLayoutPanel7.Controls.Add(this.customerName, 1, 0);
+            this.tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel7.Location = new System.Drawing.Point(24, 3);
+            this.tableLayoutPanel7.Name = "tableLayoutPanel7";
+            this.tableLayoutPanel7.RowCount = 1;
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel7.Size = new System.Drawing.Size(382, 24);
+            this.tableLayoutPanel7.TabIndex = 4;
+            // 
+            // label4
+            // 
+            this.label4.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(29, 2);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(62, 20);
+            this.label4.TabIndex = 3;
+            this.label4.Text = "NAME:";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // customerName
+            // 
+            this.customerName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.customerName.Location = new System.Drawing.Point(97, 3);
+            this.customerName.Name = "customerName";
+            this.customerName.Size = new System.Drawing.Size(282, 22);
+            this.customerName.TabIndex = 4;
             // 
             // checkout
             // 
@@ -262,6 +303,8 @@ namespace POS
             this.tableLayoutPanel5.ResumeLayout(false);
             this.tableLayoutPanel5.PerformLayout();
             this.tableLayoutPanel6.ResumeLayout(false);
+            this.tableLayoutPanel7.ResumeLayout(false);
+            this.tableLayoutPanel7.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -282,6 +325,9 @@ namespace POS
         private System.Windows.Forms.Label changeCheckout;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
         private System.Windows.Forms.Button cancel_checkout;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button confirm_checkout;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel7;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox customerName;
     }
 }

@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace POS
@@ -16,18 +11,44 @@ namespace POS
     {
         TableLayoutPanel activePanel;
         String currentInventory;
-        String history = "history.csv";
+        String coffeeshopInventory;
+        String carwashInventory;
+        String history;
+        String logs;
         DataTable dt_cashier = new DataTable();
+        String PIN;
+        String verifyPIN;
+        bool clockedIn;
+
+        private Timer _timer;
+        private DateTime _startTime = DateTime.MinValue;
+        private TimeSpan _currentElapsedTime = TimeSpan.Zero;
+        private TimeSpan _totalElapsedTime = TimeSpan.Zero;
 
         public POS()
         {
             InitializeComponent();
             activePanel = menuPanel;
             currentInventory = "inventory_coffeeshop.csv";
+            coffeeshopInventory = "inventory_coffeeshop.csv";
+            carwashInventory = "inventory_carwash.csv";
+            history = "history.csv";
+            logs = "logs.csv";
             dt_cashier.Columns.Add("Qty");
             dt_cashier.Columns.Add("Class");
             dt_cashier.Columns.Add("Item");
             dt_cashier.Columns.Add("Price");
+            cmbStoreOptionInventory.SelectedIndex = 0;
+            cmbStoreOptionOrder.SelectedIndex = 0;
+            cmbOptionHistory.SelectedIndex = 0;
+
+            PIN = String.Empty;
+            verifyPIN = "1111";
+            clockedIn = false;
+
+            _timer = new Timer();
+            _timer.Interval = 1000;
+            _timer.Tick += new EventHandler(_timer_Tick);
         }
         private void LoadData(string strFilePath)
         {
@@ -103,9 +124,166 @@ namespace POS
                 cmbSearchTypeOrder.SelectedIndex = 0;
         }
 
+        private void LoadDataHistory(string strFilePath)
+        {
+            DataTable dt_history = new DataTable();
+            dt_history.Clear();
+            string[] lines = System.IO.File.ReadAllLines(strFilePath);
+            if (lines.Length > 0)
+            {
+                //Header
+                string strfirstLine = lines[0];
+                string[] headerLabels = strfirstLine.Split(',');
+                foreach (string strheader in headerLabels)
+                {
+                    dt_history.Columns.Add(new DataColumn(strheader));
+                }
+                //Data
+                for (int i = 1; i < lines.Length; i++)
+                {
+                    string[] strData = lines[i].Split(',');
+                    DataRow dr = dt_history.NewRow();
+                    int columnIndex = 0;
+                    foreach (string strheader in headerLabels)
+                    {
+                        dr[strheader] = strData[columnIndex++];
+                    }
+                    dt_history.Rows.Add(dr);
+                }
+            }
+            if (dt_history.Rows.Count > 0)
+            {
+                historyTable.DataSource = dt_history;
+            }
+
+            cmbSearchTypeHistory.Items.Clear();
+            string[] ColNameList = dt_history.Columns.OfType<DataColumn>().Select(x => x.ColumnName).ToArray();
+            cmbSearchTypeHistory.Items.AddRange(ColNameList); // Adding Column Names in ComoBox List
+            if (cmbSearchTypeHistory.Items.Count > 0)
+                cmbSearchTypeHistory.SelectedIndex = 0;
+        }
+
         private void inventory_table()
         {
-            LoadData(currentInventory);
+            if (cmbStoreOptionInventory.Text == "Coffee Shop")
+            {
+                if (File.Exists(coffeeshopInventory))
+                {
+                    try
+                    {
+                        LoadData(coffeeshopInventory);
+                    }
+                    catch
+                    {
+                        DialogResult dr = MessageBox.Show("Please close the spreadsheet file.", "File is Open", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+                }
+                else
+                {
+                    DialogResult dr = MessageBox.Show("Put inventory_coffeeshop.csv in the same directory.", "File Not Found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+
+            }
+            else if (cmbStoreOptionInventory.Text == "Car Wash")
+            {
+                if (File.Exists(carwashInventory))
+                {
+                    try
+                    {
+                        LoadData(carwashInventory);
+                    }
+                    catch
+                    {
+                        DialogResult dr = MessageBox.Show("Please close the spreadsheet file.", "File is Open", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+                }
+                else
+                {
+                    DialogResult dr = MessageBox.Show("Put inventory_carwash.csv in the same directory.", "File Not Found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+            }
+        }
+
+        private void order_table()
+        {
+            if (cmbStoreOptionOrder.Text == "Coffee Shop")
+            {
+                if (File.Exists(coffeeshopInventory))
+                {
+                    try
+                    {
+                        LoadData(coffeeshopInventory);
+                    }
+                    catch
+                    {
+                        DialogResult dr = MessageBox.Show("Please close the spreadsheet file.", "File is Open", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+                }
+                else
+                {
+                    DialogResult dr = MessageBox.Show("Put inventory_coffeeshop.csv in the same directory.", "File Not Found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+
+            }
+            else if (cmbStoreOptionOrder.Text == "Car Wash")
+            {
+                if (File.Exists(carwashInventory))
+                {
+                    try
+                    {
+                        LoadData(carwashInventory);
+                    }
+                    catch
+                    {
+                        DialogResult dr = MessageBox.Show("Please close the spreadsheet file.", "File is Open", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+                }
+                else
+                {
+                    DialogResult dr = MessageBox.Show("Put inventory_carwash.csv in the same directory.", "File Not Found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+            }
+        }
+
+        private void history_table()
+        {
+            if (cmbOptionHistory.Text == "Orders")
+            {
+                if (File.Exists(history))
+                {
+                    try
+                    {
+                        LoadDataHistory(history);
+                    }
+                    catch
+                    {
+                        DialogResult dr = MessageBox.Show("Please close the spreadsheet file.", "File is Open", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+                }
+                else
+                {
+                    DialogResult dr = MessageBox.Show("Put history.csv in the same directory.", "File Not Found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+
+            }
+            else if (cmbOptionHistory.Text == "Logs")
+            {
+                if (File.Exists(logs))
+                {
+                    try
+                    {
+                        LoadDataHistory(logs);
+                    }
+                    catch
+                    {
+                        DialogResult dr = MessageBox.Show("Please close the spreadsheet file.", "File is Open", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+                }
+                else
+                {
+                    DialogResult dr = MessageBox.Show("Put logs.csv in the same directory.", "File Not Found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+            }
         }
 
         private void order_button_Click(object sender, EventArgs e)
@@ -114,47 +292,33 @@ namespace POS
             activePanel = orderPanel;
             activePanel.Visible = true;
 
-            LoadData(currentInventory);
+            order_table();
 
-            menuTable.Columns["Ingredient"].Visible = false;
-            menuTable.Columns["Amount"].Visible = false;
-            menuTable.Columns["Qty"].Visible = false;
+            if (cmbStoreOptionOrder.Text == "Coffee Shop")
+            {
+                menuTable.Columns["Ingredient"].Visible = false;
+                menuTable.Columns["Amount"].Visible = false;
+                menuTable.Columns["Qty"].Visible = false;
+            }
 
             orderTable.DataSource = dt_cashier;
-        }
 
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
+            var id = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
 
+            order_id.Text = id;
         }
 
         private void exit_button_Click(object sender, EventArgs e)
         {
-            DialogResult dr = MessageBox.Show("Are you sure you want to close the POS?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            //this refers to the form
-            //closes the form if user said yes
-            if (dr == DialogResult.Yes)
-                this.Close();
-        }
-
-        private void POS_Load(object sender, EventArgs e)
-        {
-
+            this.Close();
         }
 
         private void inventory_button_Click(object sender, EventArgs e)
         {
-            
             activePanel.Visible = false;
             activePanel = inventoryPanel;
             activePanel.Visible = true;
             inventory_table();
-        }
-
-        private void inventoryPanel_Paint(object sender, PaintEventArgs e)
-        {
-
         }
 
         private void backInventory_Click(object sender, EventArgs e)
@@ -162,21 +326,6 @@ namespace POS
             activePanel.Visible = false;
             activePanel = menuPanel;
             activePanel.Visible = true;
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dataGridView1_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
-        {
-
         }
 
         private void load_inventory_Click(object sender, EventArgs e)
@@ -191,22 +340,23 @@ namespace POS
                     LoadData(currentInventory);
                 }
             }
-
         }
 
         private void search_Click(object sender, EventArgs e)
         {
-            ((DataTable)inventoryTable.DataSource).DefaultView.RowFilter = string.Format("" + cmbSearchType.Text + " like '%{0}%'", search_inventory.Text.Trim().Replace("'", "''"));
+            try
+            {
+                ((DataTable)inventoryTable.DataSource).DefaultView.RowFilter = string.Format("" + cmbSearchType.Text + " like '%{0}%'", search_inventory.Text.Trim().Replace("'", "''"));
+            }
+            catch
+            {
+                DialogResult dr = MessageBox.Show("Unable to search field.", "Searching Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
         }
 
         private void show_all_Click(object sender, EventArgs e)
         {
-            LoadData(currentInventory);
-        }
-
-        private void tableLayoutPanel5_Paint(object sender, PaintEventArgs e)
-        {
-
+            inventory_table();
         }
 
         private void backOrder_Click(object sender, EventArgs e)
@@ -214,11 +364,6 @@ namespace POS
             activePanel.Visible = false;
             activePanel = menuPanel;
             activePanel.Visible = true;
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void addOrderButton_Click(object sender, EventArgs e)
@@ -300,12 +445,19 @@ namespace POS
 
         private void showAllOrder_Click(object sender, EventArgs e)
         {
-            LoadData(currentInventory);
+            order_table();
         }
 
         private void searchButtonOrder_Click(object sender, EventArgs e)
         {
-            ((DataTable)menuTable.DataSource).DefaultView.RowFilter = string.Format("" + cmbSearchTypeOrder.Text + " like '%{0}%'", searchOrder.Text.Trim().Replace("'", "''"));
+            try
+            {
+                ((DataTable)menuTable.DataSource).DefaultView.RowFilter = string.Format("" + cmbSearchTypeOrder.Text + " like '%{0}%'", searchOrder.Text.Trim().Replace("'", "''"));
+            }
+            catch
+            {
+                DialogResult dr = MessageBox.Show("Unable to search field.", "Searching Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
         }
 
         private void checkoutOrder_Click(object sender, EventArgs e)
@@ -324,25 +476,10 @@ namespace POS
                 }
                 else
                 {
-                    checkout confirm = new checkout(dt_cashier, totalPrice.Text, cashBox.Text);
+                    checkout confirm = new checkout(dt_cashier, totalPrice.Text, cashBox.Text, order_id.Text);
                     confirm.Show();
                 }
             }
-
-            //string clientDetails = clientNameTextBox.Text + "," + mIDTextBox.Text + "," + billToTextBox.Text;
-            /*            if (!File.Exists(history))
-                        {
-                            string clientHeader = "ID" + "," + "Date" + "," + "Item" + "," + "Total Price" + Environment.NewLine;
-
-                            File.WriteAllText(history, clientHeader);
-                        }*/
-
-            //File.AppendAllText(history, clientDetails);
-        }
-
-        private void tableLayoutPanel11_Paint(object sender, PaintEventArgs e)
-        {
-
         }
 
         private void cashBox_TextChanged(object sender, EventArgs e)
@@ -352,6 +489,236 @@ namespace POS
             {
                 checkoutOrder.Enabled = true;
             }
+        }
+
+        private void history_button_Click(object sender, EventArgs e)
+        {
+            activePanel.Visible = false;
+            activePanel = historyPanel;
+            activePanel.Visible = true;
+
+            history_table();
+        }
+
+        private void backHistory_Click(object sender, EventArgs e)
+        {
+            activePanel.Visible = false;
+            activePanel = menuPanel;
+            activePanel.Visible = true;
+        }
+
+        private void clock_button_Click(object sender, EventArgs e)
+        {
+            activePanel.Visible = false;
+            activePanel = clockPanel;
+            activePanel.Visible = true;
+        }
+
+        private void backClock_Click(object sender, EventArgs e)
+        {
+            activePanel.Visible = false;
+            activePanel = menuPanel;
+            activePanel.Visible = true;
+        }
+
+        private void one_Click(object sender, EventArgs e)
+        {
+            PIN += "1";
+            PINText.Text += "*";
+        }
+
+        private void two_Click(object sender, EventArgs e)
+        {
+            PIN += "2";
+            PINText.Text += "*";
+        }
+
+        private void three_Click(object sender, EventArgs e)
+        {
+            PIN += "3";
+            PINText.Text += "*";
+        }
+
+        private void four_Click(object sender, EventArgs e)
+        {
+            PIN += "4";
+            PINText.Text += "*";
+        }
+
+        private void five_Click(object sender, EventArgs e)
+        {
+            PIN += "5";
+            PINText.Text += "*";
+        }
+
+        private void six_Click(object sender, EventArgs e)
+        {
+            PIN += "6";
+            PINText.Text += "*";
+        }
+
+        private void seven_Click(object sender, EventArgs e)
+        {
+            PIN += "7";
+            PINText.Text += "*";
+        }
+
+        private void eight_Click(object sender, EventArgs e)
+        {
+            PIN += "8";
+            PINText.Text += "*";
+        }
+
+        private void nine_Click(object sender, EventArgs e)
+        {
+            PIN += "9";
+            PINText.Text += "*";
+        }
+
+        private void clearPIN_Click(object sender, EventArgs e)
+        {
+            PIN = String.Empty;
+            PINText.Text = String.Empty;
+        }
+
+        private void clockInButton_Click(object sender, EventArgs e)
+        {
+            if (nameClockText.Text == String.Empty)
+            {
+                DialogResult dr = MessageBox.Show("Please enter your name.", "No Name", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            else if (PIN != verifyPIN)
+            {
+                DialogResult dr = MessageBox.Show("The PIN entered is incorrect.", "Incorrect PIN", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            else
+            {
+                _startTime = DateTime.Now;
+
+                // Store the total elapsed time so far
+                _totalElapsedTime = _currentElapsedTime;
+
+                _timer.Start();
+
+                clockOutButton.Enabled = true;
+                clockInButton.Enabled = false;
+
+                order_button.Enabled = true;
+                history_button.Enabled = true;
+                inventory_button.Enabled = true;
+
+                nameClock.Text = nameClockText.Text;
+                timeIn.Text = DateTime.Now.ToString();
+                timeOut.Text = String.Empty;
+                totalTime.Text = String.Empty;
+
+                nameClockText.Text = String.Empty;
+                PINText.Text = String.Empty;
+
+                clockedIn = true;
+            }
+        }
+
+        void _timer_Tick(object sender, EventArgs e)
+        {
+            // We do this to 'chop off' any stray milliseconds
+            // resulting from the Timer's inherent inaccuracy,
+            // with the bonus that the TimeSpan.ToString() method
+            // will now show the correct HH:MM:SS format
+            var timeSinceStartTime = DateTime.Now - _startTime;
+            timeSinceStartTime = new TimeSpan(timeSinceStartTime.Hours,
+                                              timeSinceStartTime.Minutes,
+                                              timeSinceStartTime.Seconds);
+
+            // The current elapsed time is the time since the start button
+            // was clicked, plus the total time elapsed since the last reset
+            _currentElapsedTime = timeSinceStartTime + _totalElapsedTime;
+
+            // These are just two Label controls which display the current
+            // elapsed time and total elapsed time
+            clockTime.Text = timeSinceStartTime.ToString();
+        }
+
+        void clock_out()
+        {
+            _timer.Stop();
+
+            timeOut.Text = DateTime.Now.ToString();
+            totalTime.Text = clockTime.Text;
+
+            clockOutButton.Enabled = false;
+            clockInButton.Enabled = true;
+
+            order_button.Enabled = false;
+            history_button.Enabled = false;
+            inventory_button.Enabled = false;
+
+            if (!File.Exists(logs))
+            {
+                string logsHeader = "Name" + "," + "Time In" + "," + "Time Out" + "," + "Total Time" + Environment.NewLine;
+
+                File.WriteAllText(logs, logsHeader);
+            }
+
+            string logsDetails = nameClock.Text + "," + timeIn.Text + "," + timeOut.Text + "," + totalTime.Text + Environment.NewLine;
+            File.AppendAllText(logs, logsDetails);
+
+            clockedIn = false;
+        }
+
+        private void clockOutButton_Click(object sender, EventArgs e)
+        {
+            clock_out();
+        }
+
+        private void loadStoreOrder_Click(object sender, EventArgs e)
+        {
+            order_table();
+        }
+
+        private void loadStoreInventory_Click(object sender, EventArgs e)
+        {
+            inventory_table();
+        }
+
+        private void showAllHistory_Click(object sender, EventArgs e)
+        {
+            history_table();
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DialogResult dr = MessageBox.Show("Are you sure you want to exit?", "Exit", MessageBoxButtons.YesNo);
+            if (dr == DialogResult.Yes)
+            {
+                if (clockedIn)
+                {
+                    clock_out();
+                }
+                Application.ExitThread();
+            }
+            else if (dr == DialogResult.No)
+            {
+                e.Cancel = true;
+            }
+        }
+
+        private void searchButtonHistory_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ((DataTable)historyTable.DataSource).DefaultView.RowFilter = string.Format("" + cmbSearchTypeHistory.Text + " like '%{0}%'", searchHistory.Text.Trim().Replace("'", "''"));
+            }
+            catch
+            {
+                DialogResult dr = MessageBox.Show("Unable to search field.", "Searching Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            
+        }
+
+        private void loadHistory_Click(object sender, EventArgs e)
+        {
+            history_table();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Windows.Forms;
 
 namespace POS
 {
+
     public partial class POS : Form
     {
         TableLayoutPanel activePanel;
@@ -25,19 +27,24 @@ namespace POS
         private TimeSpan _currentElapsedTime = TimeSpan.Zero;
         private TimeSpan _totalElapsedTime = TimeSpan.Zero;
 
+        List<DataGridViewRow> addedItems = new List<DataGridViewRow>();
+
         public POS()
         {
             InitializeComponent();
+            System.Globalization.CultureInfo.DefaultThreadCurrentCulture = new System.Globalization.CultureInfo("en-US");
             activePanel = menuPanel;
             currentInventory = "inventory_coffeeshop.csv";
             coffeeshopInventory = "inventory_coffeeshop.csv";
             carwashInventory = "inventory_carwash.csv";
             history = "history.csv";
             logs = "logs.csv";
+
             dt_cashier.Columns.Add("Qty");
             dt_cashier.Columns.Add("Class");
             dt_cashier.Columns.Add("Item");
             dt_cashier.Columns.Add("Price");
+            dt_cashier.Columns.Add("Cost");
             cmbStoreOptionInventory.SelectedIndex = 0;
             cmbStoreOptionOrder.SelectedIndex = 0;
             cmbOptionHistory.SelectedIndex = 0;
@@ -163,6 +170,8 @@ namespace POS
                 cmbSearchTypeHistory.SelectedIndex = 0;
         }
 
+
+
         private void inventory_table()
         {
             if (cmbStoreOptionInventory.Text == "Coffee Shop")
@@ -175,7 +184,7 @@ namespace POS
                     }
                     catch
                     {
-                        DialogResult dr = MessageBox.Show("Please close the spreadsheet file.", "File is Open", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        DialogResult dr = MessageBox.Show("Please close inventory_coffeeshop.csv spreadsheet file.", "File is Open", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     }
                 }
                 else
@@ -194,7 +203,7 @@ namespace POS
                     }
                     catch
                     {
-                        DialogResult dr = MessageBox.Show("Please close the spreadsheet file.", "File is Open", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        DialogResult dr = MessageBox.Show("Please close inventory_carwash.csv spreadsheet file.", "File is Open", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     }
                 }
                 else
@@ -245,6 +254,22 @@ namespace POS
             }
         }
 
+        private void calculate_total()
+        {
+            decimal totalPrice = 0;
+            decimal totalCost = 0;
+
+            for (int i = 0; i < historyTable.Rows.Count; i++)
+            {
+                totalPrice += Convert.ToDecimal(historyTable.Rows[i].Cells["Item Price"].Value);
+                totalCost += Convert.ToDecimal(historyTable.Rows[i].Cells["Item Cost"].Value);
+            }
+
+            priceTotal.Text = totalPrice.ToString("F");
+            costTotal.Text = totalCost.ToString("F");
+            netIncome.Text = (totalPrice - totalCost).ToString("F");
+        }
+
         private void history_table()
         {
             if (cmbOptionHistory.Text == "Orders")
@@ -254,6 +279,14 @@ namespace POS
                     try
                     {
                         LoadDataHistory(history);
+
+                        historyTable.Columns["ID"].Visible = false;
+                        historyTable.Columns["Name"].Visible = false;
+                        historyTable.Columns["Total Order"].Visible = false;
+
+                        calculate_total();
+
+                        filterDate.Enabled = true;
                     }
                     catch
                     {
@@ -273,6 +306,8 @@ namespace POS
                     try
                     {
                         LoadDataHistory(logs);
+
+                        filterDate.Enabled = false;
                     }
                     catch
                     {
@@ -284,6 +319,13 @@ namespace POS
                     DialogResult dr = MessageBox.Show("Put logs.csv in the same directory.", "File Not Found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
             }
+        }
+
+        private void generate_OrderID()
+        {
+            var id = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+
+            order_id.Text = id;
         }
 
         private void order_button_Click(object sender, EventArgs e)
@@ -299,13 +341,14 @@ namespace POS
                 menuTable.Columns["Ingredient"].Visible = false;
                 menuTable.Columns["Amount"].Visible = false;
                 menuTable.Columns["Qty"].Visible = false;
+                menuTable.Columns["Cost"].Visible = false;
             }
 
             orderTable.DataSource = dt_cashier;
 
-            var id = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+            orderTable.Columns["Cost"].Visible = false;
 
-            order_id.Text = id;
+            generate_OrderID();
         }
 
         private void exit_button_Click(object sender, EventArgs e)
@@ -375,7 +418,9 @@ namespace POS
                 string classItem = Convert.ToString(selectedRow.Cells["Class"].Value);
                 string item = Convert.ToString(selectedRow.Cells["Item"].Value);
                 string price = Convert.ToString(selectedRow.Cells["Price"].Value);
+                string cost = Convert.ToString(selectedRow.Cells["Cost"].Value);
                 bool exists = false;
+
                 foreach (DataGridViewRow row in orderTable.Rows)
                 {
                     if (row.Cells["Class"].Value.ToString() == classItem && row.Cells["Item"].Value.ToString() == item && row.Cells["Price"].Value.ToString() == price)
@@ -385,9 +430,10 @@ namespace POS
                 }
                 if (exists == false)
                 {
-                    dt_cashier.Rows.Add(new Object[] { 1, classItem, item, price });
+                    dt_cashier.Rows.Add(new Object[] { 1, classItem, item, price, cost });
                     double total = Convert.ToDouble(totalPrice.Text) + Convert.ToDouble(price);
                     totalPrice.Text = total.ToString("F");
+                    addedItems.Add(selectedRow);
                 }
             }
         }
@@ -446,6 +492,14 @@ namespace POS
         private void showAllOrder_Click(object sender, EventArgs e)
         {
             order_table();
+
+            if (cmbStoreOptionOrder.Text == "Coffee Shop")
+            {
+                menuTable.Columns["Ingredient"].Visible = false;
+                menuTable.Columns["Amount"].Visible = false;
+                menuTable.Columns["Qty"].Visible = false;
+                menuTable.Columns["Cost"].Visible = false;
+            }
         }
 
         private void searchButtonOrder_Click(object sender, EventArgs e)
@@ -476,7 +530,8 @@ namespace POS
                 }
                 else
                 {
-                    checkout confirm = new checkout(dt_cashier, totalPrice.Text, cashBox.Text, order_id.Text);
+                    generate_OrderID();
+                    checkout confirm = new checkout(dt_cashier, totalPrice.Text, cashBox.Text, order_id.Text, menuTable, orderTable, coffeeshopInventory);
                     confirm.Show();
                 }
             }
@@ -614,6 +669,7 @@ namespace POS
 
                 nameClockText.Text = String.Empty;
                 PINText.Text = String.Empty;
+                PIN = String.Empty;
 
                 clockedIn = true;
             }
@@ -639,31 +695,61 @@ namespace POS
             clockTime.Text = timeSinceStartTime.ToString();
         }
 
-        void clock_out()
+        protected virtual bool isFileLocked(FileInfo file)
         {
-            _timer.Stop();
-
-            timeOut.Text = DateTime.Now.ToString();
-            totalTime.Text = clockTime.Text;
-
-            clockOutButton.Enabled = false;
-            clockInButton.Enabled = true;
-
-            order_button.Enabled = false;
-            history_button.Enabled = false;
-            inventory_button.Enabled = false;
-
-            if (!File.Exists(logs))
+            try
             {
-                string logsHeader = "Name" + "," + "Time In" + "," + "Time Out" + "," + "Total Time" + Environment.NewLine;
-
-                File.WriteAllText(logs, logsHeader);
+                using (FileStream stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None))
+                {
+                    stream.Close();
+                }
+            }
+            catch (IOException)
+            {
+                //the file is unavailable because it is:
+                //still being written to
+                //or being processed by another thread
+                //or does not exist (has already been processed)
+                return true;
             }
 
-            string logsDetails = nameClock.Text + "," + timeIn.Text + "," + timeOut.Text + "," + totalTime.Text + Environment.NewLine;
-            File.AppendAllText(logs, logsDetails);
+            //file is not locked
+            return false;
+        }
 
-            clockedIn = false;
+        void clock_out()
+        {
+            FileInfo logsFile = new FileInfo(logs);
+            if (!isFileLocked(logsFile))
+            {
+                _timer.Stop();
+
+                timeOut.Text = DateTime.Now.ToString();
+                totalTime.Text = clockTime.Text;
+
+                clockOutButton.Enabled = false;
+                clockInButton.Enabled = true;
+
+                order_button.Enabled = false;
+                history_button.Enabled = false;
+                inventory_button.Enabled = false;
+
+                if (!File.Exists(logs))
+                {
+                    string logsHeader = "Name" + "," + "Time In" + "," + "Time Out" + "," + "Total Time" + Environment.NewLine;
+
+                    File.WriteAllText(logs, logsHeader);
+                }
+
+                string logsDetails = nameClock.Text + "," + timeIn.Text + "," + timeOut.Text + "," + totalTime.Text + Environment.NewLine;
+                File.AppendAllText(logs, logsDetails);
+
+                clockedIn = false;
+            }
+            else
+            {
+                DialogResult dr = MessageBox.Show("Please close the logs.csv spreadsheet file.", "Clock Out Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
         }
 
         private void clockOutButton_Click(object sender, EventArgs e)
@@ -674,6 +760,14 @@ namespace POS
         private void loadStoreOrder_Click(object sender, EventArgs e)
         {
             order_table();
+
+            if (cmbStoreOptionOrder.Text == "Coffee Shop")
+            {
+                menuTable.Columns["Ingredient"].Visible = false;
+                menuTable.Columns["Amount"].Visible = false;
+                menuTable.Columns["Qty"].Visible = false;
+                menuTable.Columns["Cost"].Visible = false;
+            }
         }
 
         private void loadStoreInventory_Click(object sender, EventArgs e)
@@ -693,9 +787,21 @@ namespace POS
             {
                 if (clockedIn)
                 {
+                    FileInfo logsFile = new FileInfo(logs);
                     clock_out();
+                    if (isFileLocked(logsFile))
+                    {
+                        e.Cancel = true;
+                    }
+                    else
+                    {
+                        Application.ExitThread();
+                    }
                 }
-                Application.ExitThread();
+                else
+                {
+                    Application.ExitThread();
+                }
             }
             else if (dr == DialogResult.No)
             {
@@ -703,11 +809,34 @@ namespace POS
             }
         }
 
+        private DataTable convertToDataTable(DataGridView dgv)
+        {
+            DataTable dt = new DataTable();
+            foreach (DataGridViewColumn col in dgv.Columns)
+            {
+                dt.Columns.Add(col.Name);
+            }
+
+            foreach (DataGridViewRow row in dgv.Rows)
+            {
+                DataRow dRow = dt.NewRow();
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+                    dRow[cell.ColumnIndex] = cell.Value;
+                }
+                dt.Rows.Add(dRow);
+            }
+
+            return dt;
+        }
+
         private void searchButtonHistory_Click(object sender, EventArgs e)
         {
             try
             {
                 ((DataTable)historyTable.DataSource).DefaultView.RowFilter = string.Format("" + cmbSearchTypeHistory.Text + " like '%{0}%'", searchHistory.Text.Trim().Replace("'", "''"));
+                historyTable.DataSource = convertToDataTable(historyTable);
+                calculate_total();
             }
             catch
             {
@@ -719,6 +848,73 @@ namespace POS
         private void loadHistory_Click(object sender, EventArgs e)
         {
             history_table();
+        }
+
+        private void filterDate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DataTable dtCloned = ((DataTable)historyTable.DataSource).Clone();
+                dtCloned.Columns["Date"].DataType = typeof(DateTime);
+                foreach (DataRow row in ((DataTable)historyTable.DataSource).Rows)
+                {
+                    dtCloned.ImportRow(row);
+                }
+
+                ((DataTable)historyTable.DataSource).DefaultView.RowFilter = string.Format("Date >= #{0:yyyy/MM/dd}# And Date <= #{1:yyyy/MM/dd}#", dateTimePicker1.Value, dateTimePicker2.Value);
+                historyTable.DataSource = convertToDataTable(historyTable);
+                calculate_total();
+            }
+            catch (Exception err)
+            {
+                DialogResult dr = MessageBox.Show("Unable to filter date.", "Filtering Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                Console.WriteLine(err);
+            }
+        }
+    }
+
+    public static class DataGridViewExtensionMethods
+    {
+
+        /// <summary>
+        /// Convert column Header text to a delimited string
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <returns></returns>
+        public static string DelimitedHeaders(this DataGridView sender) =>
+            string.Join(",", sender.Columns.OfType<DataGridViewColumn>()
+                .Select(column => column.HeaderText).ToArray());
+
+        /// <summary>
+        /// Create a string array of data in the DataGridView, does not include header
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="delimiter">Delimiter which defaults to a comma</param>
+        /// <returns>array comprised of rows/cell data without header</returns>
+        public static string[] ToDelimited(this DataGridView sender, string delimiter = ",") =>
+            (sender.Rows.Cast<DataGridViewRow>()
+                .Where(row => !row.IsNewRow)
+                .Select(row => new {
+                    row,
+                    rowItem = string.Join(delimiter,
+                    Array.ConvertAll(row.Cells.Cast<DataGridViewCell>().ToArray(), c =>
+                        ((c.Value == null) ? "" : c.Value.ToString())))
+                })
+                .Select(@t => @t.rowItem)).ToArray();
+
+        /// <summary>
+        ///  Create a string array of data in the DataGridView, includes header
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="delimiter">Delimiter which defaults to a comma</param>
+        /// <returns>array comprised of rows/cell data with header</returns>
+        public static string[] ToDelimitedWithHeaders(this DataGridView sender, string delimiter = ",")
+        {
+            var headers = sender.DelimitedHeaders();
+            var data = sender.ToDelimited().ToList();
+            data.Insert(0, headers);
+            return data.ToArray();
+
         }
     }
 }

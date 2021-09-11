@@ -84,8 +84,8 @@ namespace POS
             this.tableLayoutPanel13 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel15 = new System.Windows.Forms.TableLayoutPanel();
             this.searchButtonHistory = new System.Windows.Forms.Button();
-            this.searchHistory = new System.Windows.Forms.TextBox();
             this.cmbSearchTypeHistory = new System.Windows.Forms.ComboBox();
+            this.searchHistory = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel14 = new System.Windows.Forms.TableLayoutPanel();
             this.showAllHistory = new System.Windows.Forms.Button();
             this.historyTable = new System.Windows.Forms.DataGridView();
@@ -93,6 +93,19 @@ namespace POS
             this.tableLayoutPanel30 = new System.Windows.Forms.TableLayoutPanel();
             this.loadHistory = new System.Windows.Forms.Button();
             this.cmbOptionHistory = new System.Windows.Forms.ComboBox();
+            this.tableLayoutPanel31 = new System.Windows.Forms.TableLayoutPanel();
+            this.filterDate = new System.Windows.Forms.Button();
+            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.tableLayoutPanel32 = new System.Windows.Forms.TableLayoutPanel();
+            this.label13 = new System.Windows.Forms.Label();
+            this.priceTotal = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.costTotal = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.netIncome = new System.Windows.Forms.Label();
             this.clockPanel = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel12 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel16 = new System.Windows.Forms.TableLayoutPanel();
@@ -158,6 +171,8 @@ namespace POS
             this.tableLayoutPanel14.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.historyTable)).BeginInit();
             this.tableLayoutPanel30.SuspendLayout();
+            this.tableLayoutPanel31.SuspendLayout();
+            this.tableLayoutPanel32.SuspendLayout();
             this.clockPanel.SuspendLayout();
             this.tableLayoutPanel12.SuspendLayout();
             this.tableLayoutPanel16.SuspendLayout();
@@ -357,7 +372,7 @@ namespace POS
             this.tableLayoutPanel2.ColumnCount = 3;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40.85106F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 59.14894F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 117F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 130F));
             this.tableLayoutPanel2.Controls.Add(this.search, 2, 0);
             this.tableLayoutPanel2.Controls.Add(this.search_inventory, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.cmbSearchType, 0, 0);
@@ -372,9 +387,9 @@ namespace POS
             // search
             // 
             this.search.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.search.Location = new System.Drawing.Point(584, 13);
+            this.search.Location = new System.Drawing.Point(571, 13);
             this.search.Name = "search";
-            this.search.Size = new System.Drawing.Size(112, 23);
+            this.search.Size = new System.Drawing.Size(125, 23);
             this.search.TabIndex = 1;
             this.search.Text = "Search";
             this.search.UseVisualStyleBackColor = true;
@@ -383,18 +398,18 @@ namespace POS
             // search_inventory
             // 
             this.search_inventory.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.search_inventory.Location = new System.Drawing.Point(240, 14);
+            this.search_inventory.Location = new System.Drawing.Point(235, 14);
             this.search_inventory.Name = "search_inventory";
-            this.search_inventory.Size = new System.Drawing.Size(338, 22);
+            this.search_inventory.Size = new System.Drawing.Size(330, 22);
             this.search_inventory.TabIndex = 0;
             // 
             // cmbSearchType
             // 
             this.cmbSearchType.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.cmbSearchType.FormattingEnabled = true;
-            this.cmbSearchType.Location = new System.Drawing.Point(3, 11);
+            this.cmbSearchType.Location = new System.Drawing.Point(3, 12);
             this.cmbSearchType.Name = "cmbSearchType";
-            this.cmbSearchType.Size = new System.Drawing.Size(231, 24);
+            this.cmbSearchType.Size = new System.Drawing.Size(226, 24);
             this.cmbSearchType.TabIndex = 2;
             // 
             // tableLayoutPanel28
@@ -430,7 +445,7 @@ namespace POS
             this.cmbStoreOptionInventory.Items.AddRange(new object[] {
             "Coffee Shop",
             "Car Wash"});
-            this.cmbStoreOptionInventory.Location = new System.Drawing.Point(7, 7);
+            this.cmbStoreOptionInventory.Location = new System.Drawing.Point(7, 8);
             this.cmbStoreOptionInventory.Name = "cmbStoreOptionInventory";
             this.cmbStoreOptionInventory.Size = new System.Drawing.Size(560, 24);
             this.cmbStoreOptionInventory.TabIndex = 4;
@@ -732,7 +747,7 @@ namespace POS
             this.tableLayoutPanel6.ColumnCount = 3;
             this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40.85106F));
             this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 59.14894F));
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 117F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 130F));
             this.tableLayoutPanel6.Controls.Add(this.searchButtonOrder, 2, 0);
             this.tableLayoutPanel6.Controls.Add(this.searchOrder, 1, 0);
             this.tableLayoutPanel6.Controls.Add(this.cmbSearchTypeOrder, 0, 0);
@@ -747,9 +762,9 @@ namespace POS
             // searchButtonOrder
             // 
             this.searchButtonOrder.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.searchButtonOrder.Location = new System.Drawing.Point(277, 7);
+            this.searchButtonOrder.Location = new System.Drawing.Point(264, 7);
             this.searchButtonOrder.Name = "searchButtonOrder";
-            this.searchButtonOrder.Size = new System.Drawing.Size(112, 23);
+            this.searchButtonOrder.Size = new System.Drawing.Size(125, 23);
             this.searchButtonOrder.TabIndex = 1;
             this.searchButtonOrder.Text = "Search";
             this.searchButtonOrder.UseVisualStyleBackColor = true;
@@ -758,18 +773,18 @@ namespace POS
             // searchOrder
             // 
             this.searchOrder.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.searchOrder.Location = new System.Drawing.Point(115, 8);
+            this.searchOrder.Location = new System.Drawing.Point(110, 8);
             this.searchOrder.Name = "searchOrder";
-            this.searchOrder.Size = new System.Drawing.Size(156, 22);
+            this.searchOrder.Size = new System.Drawing.Size(148, 22);
             this.searchOrder.TabIndex = 0;
             // 
             // cmbSearchTypeOrder
             // 
             this.cmbSearchTypeOrder.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.cmbSearchTypeOrder.FormattingEnabled = true;
-            this.cmbSearchTypeOrder.Location = new System.Drawing.Point(3, 5);
+            this.cmbSearchTypeOrder.Location = new System.Drawing.Point(3, 6);
             this.cmbSearchTypeOrder.Name = "cmbSearchTypeOrder";
-            this.cmbSearchTypeOrder.Size = new System.Drawing.Size(106, 24);
+            this.cmbSearchTypeOrder.Size = new System.Drawing.Size(101, 24);
             this.cmbSearchTypeOrder.TabIndex = 2;
             // 
             // tableLayoutPanel29
@@ -815,7 +830,7 @@ namespace POS
             this.tableLayoutPanel10.ColumnCount = 3;
             this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 23.12704F));
             this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 76.87296F));
-            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 173F));
+            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 186F));
             this.tableLayoutPanel10.Controls.Add(this.label2, 0, 0);
             this.tableLayoutPanel10.Controls.Add(this.checkoutOrder, 2, 0);
             this.tableLayoutPanel10.Controls.Add(this.cashBox, 1, 0);
@@ -832,7 +847,7 @@ namespace POS
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(13, 11);
+            this.label2.Location = new System.Drawing.Point(10, 11);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(53, 18);
             this.label2.TabIndex = 2;
@@ -843,9 +858,9 @@ namespace POS
             // 
             this.checkoutOrder.Dock = System.Windows.Forms.DockStyle.Fill;
             this.checkoutOrder.Enabled = false;
-            this.checkoutOrder.Location = new System.Drawing.Point(301, 3);
+            this.checkoutOrder.Location = new System.Drawing.Point(288, 3);
             this.checkoutOrder.Name = "checkoutOrder";
-            this.checkoutOrder.Size = new System.Drawing.Size(168, 35);
+            this.checkoutOrder.Size = new System.Drawing.Size(181, 35);
             this.checkoutOrder.TabIndex = 1;
             this.checkoutOrder.Text = "CHECKOUT";
             this.checkoutOrder.UseVisualStyleBackColor = true;
@@ -854,9 +869,9 @@ namespace POS
             // cashBox
             // 
             this.cashBox.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.cashBox.Location = new System.Drawing.Point(73, 9);
+            this.cashBox.Location = new System.Drawing.Point(69, 9);
             this.cashBox.Name = "cashBox";
-            this.cashBox.Size = new System.Drawing.Size(220, 22);
+            this.cashBox.Size = new System.Drawing.Size(213, 22);
             this.cashBox.TabIndex = 3;
             this.cashBox.TextChanged += new System.EventHandler(this.cashBox_TextChanged);
             // 
@@ -881,17 +896,21 @@ namespace POS
             this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80F));
             this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tableLayoutPanel13.Controls.Add(this.tableLayoutPanel15, 1, 0);
-            this.tableLayoutPanel13.Controls.Add(this.tableLayoutPanel14, 2, 1);
-            this.tableLayoutPanel13.Controls.Add(this.historyTable, 1, 1);
+            this.tableLayoutPanel13.Controls.Add(this.tableLayoutPanel14, 2, 2);
+            this.tableLayoutPanel13.Controls.Add(this.historyTable, 1, 2);
             this.tableLayoutPanel13.Controls.Add(this.backHistory, 0, 0);
-            this.tableLayoutPanel13.Controls.Add(this.tableLayoutPanel30, 1, 2);
+            this.tableLayoutPanel13.Controls.Add(this.tableLayoutPanel30, 1, 4);
+            this.tableLayoutPanel13.Controls.Add(this.tableLayoutPanel31, 1, 1);
+            this.tableLayoutPanel13.Controls.Add(this.tableLayoutPanel32, 1, 3);
             this.tableLayoutPanel13.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel13.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel13.Name = "tableLayoutPanel13";
-            this.tableLayoutPanel13.RowCount = 3;
-            this.tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 80F));
-            this.tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel13.RowCount = 5;
+            this.tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.430913F));
+            this.tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.571428F));
+            this.tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 72.85714F));
+            this.tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
+            this.tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.92655F));
             this.tableLayoutPanel13.Size = new System.Drawing.Size(876, 447);
             this.tableLayoutPanel13.TabIndex = 2;
             // 
@@ -900,45 +919,47 @@ namespace POS
             this.tableLayoutPanel15.ColumnCount = 3;
             this.tableLayoutPanel15.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40.85106F));
             this.tableLayoutPanel15.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 59.14894F));
-            this.tableLayoutPanel15.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 117F));
+            this.tableLayoutPanel15.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 130F));
             this.tableLayoutPanel15.Controls.Add(this.searchButtonHistory, 2, 0);
-            this.tableLayoutPanel15.Controls.Add(this.searchHistory, 1, 0);
             this.tableLayoutPanel15.Controls.Add(this.cmbSearchTypeHistory, 0, 0);
+            this.tableLayoutPanel15.Controls.Add(this.searchHistory, 1, 0);
             this.tableLayoutPanel15.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel15.Location = new System.Drawing.Point(90, 3);
             this.tableLayoutPanel15.Name = "tableLayoutPanel15";
             this.tableLayoutPanel15.RowCount = 1;
             this.tableLayoutPanel15.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel15.Size = new System.Drawing.Size(694, 38);
+            this.tableLayoutPanel15.Size = new System.Drawing.Size(694, 29);
             this.tableLayoutPanel15.TabIndex = 4;
             // 
             // searchButtonHistory
             // 
-            this.searchButtonHistory.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.searchButtonHistory.Location = new System.Drawing.Point(579, 12);
+            this.searchButtonHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.searchButtonHistory.Location = new System.Drawing.Point(566, 3);
             this.searchButtonHistory.Name = "searchButtonHistory";
-            this.searchButtonHistory.Size = new System.Drawing.Size(112, 23);
+            this.searchButtonHistory.Size = new System.Drawing.Size(125, 23);
             this.searchButtonHistory.TabIndex = 1;
             this.searchButtonHistory.Text = "Search";
             this.searchButtonHistory.UseVisualStyleBackColor = true;
             this.searchButtonHistory.Click += new System.EventHandler(this.searchButtonHistory_Click);
             // 
-            // searchHistory
-            // 
-            this.searchHistory.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.searchHistory.Location = new System.Drawing.Point(238, 13);
-            this.searchHistory.Name = "searchHistory";
-            this.searchHistory.Size = new System.Drawing.Size(335, 22);
-            this.searchHistory.TabIndex = 0;
-            // 
             // cmbSearchTypeHistory
             // 
-            this.cmbSearchTypeHistory.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.cmbSearchTypeHistory.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.cmbSearchTypeHistory.FormattingEnabled = true;
-            this.cmbSearchTypeHistory.Location = new System.Drawing.Point(3, 10);
+            this.cmbSearchTypeHistory.Location = new System.Drawing.Point(3, 3);
             this.cmbSearchTypeHistory.Name = "cmbSearchTypeHistory";
-            this.cmbSearchTypeHistory.Size = new System.Drawing.Size(229, 24);
+            this.cmbSearchTypeHistory.Size = new System.Drawing.Size(224, 24);
             this.cmbSearchTypeHistory.TabIndex = 2;
+            // 
+            // searchHistory
+            // 
+            this.searchHistory.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.searchHistory.Location = new System.Drawing.Point(233, 3);
+            this.searchHistory.Name = "searchHistory";
+            this.searchHistory.Size = new System.Drawing.Size(327, 22);
+            this.searchHistory.TabIndex = 0;
             // 
             // tableLayoutPanel14
             // 
@@ -946,14 +967,14 @@ namespace POS
             this.tableLayoutPanel14.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel14.Controls.Add(this.showAllHistory, 0, 0);
             this.tableLayoutPanel14.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel14.Location = new System.Drawing.Point(790, 47);
+            this.tableLayoutPanel14.Location = new System.Drawing.Point(790, 74);
             this.tableLayoutPanel14.Name = "tableLayoutPanel14";
             this.tableLayoutPanel14.RowCount = 4;
             this.tableLayoutPanel14.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel14.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel14.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel14.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel14.Size = new System.Drawing.Size(83, 351);
+            this.tableLayoutPanel14.Size = new System.Drawing.Size(83, 300);
             this.tableLayoutPanel14.TabIndex = 2;
             // 
             // showAllHistory
@@ -974,13 +995,13 @@ namespace POS
             this.historyTable.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.historyTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.historyTable.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.historyTable.Location = new System.Drawing.Point(90, 47);
+            this.historyTable.Location = new System.Drawing.Point(90, 74);
             this.historyTable.Name = "historyTable";
             this.historyTable.ReadOnly = true;
             this.historyTable.RowHeadersVisible = false;
             this.historyTable.RowHeadersWidth = 51;
             this.historyTable.RowTemplate.Height = 24;
-            this.historyTable.Size = new System.Drawing.Size(694, 351);
+            this.historyTable.Size = new System.Drawing.Size(694, 300);
             this.historyTable.TabIndex = 5;
             // 
             // backHistory
@@ -990,7 +1011,7 @@ namespace POS
             this.backHistory.Dock = System.Windows.Forms.DockStyle.Fill;
             this.backHistory.Location = new System.Drawing.Point(3, 3);
             this.backHistory.Name = "backHistory";
-            this.backHistory.Size = new System.Drawing.Size(81, 38);
+            this.backHistory.Size = new System.Drawing.Size(81, 29);
             this.backHistory.TabIndex = 1;
             this.backHistory.Text = "\r\n";
             this.backHistory.UseVisualStyleBackColor = true;
@@ -1004,19 +1025,19 @@ namespace POS
             this.tableLayoutPanel30.Controls.Add(this.loadHistory, 0, 0);
             this.tableLayoutPanel30.Controls.Add(this.cmbOptionHistory, 0, 0);
             this.tableLayoutPanel30.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel30.Location = new System.Drawing.Point(90, 404);
+            this.tableLayoutPanel30.Location = new System.Drawing.Point(90, 407);
             this.tableLayoutPanel30.Name = "tableLayoutPanel30";
             this.tableLayoutPanel30.RowCount = 1;
             this.tableLayoutPanel30.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel30.Size = new System.Drawing.Size(694, 40);
+            this.tableLayoutPanel30.Size = new System.Drawing.Size(694, 37);
             this.tableLayoutPanel30.TabIndex = 7;
             // 
             // loadHistory
             // 
             this.loadHistory.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.loadHistory.Location = new System.Drawing.Point(573, 4);
+            this.loadHistory.Location = new System.Drawing.Point(573, 3);
             this.loadHistory.Name = "loadHistory";
-            this.loadHistory.Size = new System.Drawing.Size(118, 33);
+            this.loadHistory.Size = new System.Drawing.Size(118, 31);
             this.loadHistory.TabIndex = 5;
             this.loadHistory.Text = "Load";
             this.loadHistory.UseVisualStyleBackColor = true;
@@ -1029,10 +1050,168 @@ namespace POS
             this.cmbOptionHistory.Items.AddRange(new object[] {
             "Orders",
             "Logs"});
-            this.cmbOptionHistory.Location = new System.Drawing.Point(5, 7);
+            this.cmbOptionHistory.Location = new System.Drawing.Point(5, 6);
             this.cmbOptionHistory.Name = "cmbOptionHistory";
             this.cmbOptionHistory.Size = new System.Drawing.Size(560, 24);
             this.cmbOptionHistory.TabIndex = 4;
+            // 
+            // tableLayoutPanel31
+            // 
+            this.tableLayoutPanel31.ColumnCount = 5;
+            this.tableLayoutPanel31.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel31.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.5F));
+            this.tableLayoutPanel31.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel31.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.5F));
+            this.tableLayoutPanel31.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
+            this.tableLayoutPanel31.Controls.Add(this.filterDate, 4, 0);
+            this.tableLayoutPanel31.Controls.Add(this.dateTimePicker2, 3, 0);
+            this.tableLayoutPanel31.Controls.Add(this.label5, 0, 0);
+            this.tableLayoutPanel31.Controls.Add(this.label10, 2, 0);
+            this.tableLayoutPanel31.Controls.Add(this.dateTimePicker1, 1, 0);
+            this.tableLayoutPanel31.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel31.Location = new System.Drawing.Point(90, 38);
+            this.tableLayoutPanel31.Name = "tableLayoutPanel31";
+            this.tableLayoutPanel31.RowCount = 1;
+            this.tableLayoutPanel31.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel31.Size = new System.Drawing.Size(694, 30);
+            this.tableLayoutPanel31.TabIndex = 8;
+            // 
+            // filterDate
+            // 
+            this.filterDate.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.filterDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.filterDate.Location = new System.Drawing.Point(591, 3);
+            this.filterDate.Name = "filterDate";
+            this.filterDate.Size = new System.Drawing.Size(100, 23);
+            this.filterDate.TabIndex = 4;
+            this.filterDate.Text = "Filter";
+            this.filterDate.UseVisualStyleBackColor = true;
+            this.filterDate.Click += new System.EventHandler(this.filterDate_Click);
+            // 
+            // dateTimePicker2
+            // 
+            this.dateTimePicker2.CustomFormat = "MM/dd/yyyy 00:00";
+            this.dateTimePicker2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimePicker2.Location = new System.Drawing.Point(366, 3);
+            this.dateTimePicker2.Name = "dateTimePicker2";
+            this.dateTimePicker2.Size = new System.Drawing.Size(219, 22);
+            this.dateTimePicker2.TabIndex = 3;
+            // 
+            // label5
+            // 
+            this.label5.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(8, 6);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(52, 17);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "FROM:";
+            // 
+            // label10
+            // 
+            this.label10.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(301, 6);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(55, 17);
+            this.label10.TabIndex = 1;
+            this.label10.Text = "UP TO:";
+            // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.CustomFormat = "MM/dd/yyyy 00:00";
+            this.dateTimePicker1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimePicker1.Location = new System.Drawing.Point(72, 3);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(219, 22);
+            this.dateTimePicker1.TabIndex = 2;
+            // 
+            // tableLayoutPanel32
+            // 
+            this.tableLayoutPanel32.ColumnCount = 6;
+            this.tableLayoutPanel32.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 19.16426F));
+            this.tableLayoutPanel32.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.57925F));
+            this.tableLayoutPanel32.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18.4438F));
+            this.tableLayoutPanel32.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.7147F));
+            this.tableLayoutPanel32.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.357348F));
+            this.tableLayoutPanel32.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 19.59654F));
+            this.tableLayoutPanel32.Controls.Add(this.label13, 0, 0);
+            this.tableLayoutPanel32.Controls.Add(this.priceTotal, 0, 0);
+            this.tableLayoutPanel32.Controls.Add(this.label12, 0, 0);
+            this.tableLayoutPanel32.Controls.Add(this.costTotal, 3, 0);
+            this.tableLayoutPanel32.Controls.Add(this.label14, 4, 0);
+            this.tableLayoutPanel32.Controls.Add(this.netIncome, 5, 0);
+            this.tableLayoutPanel32.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel32.Location = new System.Drawing.Point(90, 380);
+            this.tableLayoutPanel32.Name = "tableLayoutPanel32";
+            this.tableLayoutPanel32.RowCount = 1;
+            this.tableLayoutPanel32.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel32.Size = new System.Drawing.Size(694, 21);
+            this.tableLayoutPanel32.TabIndex = 9;
+            // 
+            // label13
+            // 
+            this.label13.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(263, 2);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(111, 17);
+            this.label13.TabIndex = 3;
+            this.label13.Text = "TOTAL COST:";
+            // 
+            // priceTotal
+            // 
+            this.priceTotal.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.priceTotal.AutoSize = true;
+            this.priceTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.priceTotal.Location = new System.Drawing.Point(136, 2);
+            this.priceTotal.Name = "priceTotal";
+            this.priceTotal.Size = new System.Drawing.Size(0, 17);
+            this.priceTotal.TabIndex = 2;
+            // 
+            // label12
+            // 
+            this.label12.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Location = new System.Drawing.Point(9, 2);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(114, 17);
+            this.label12.TabIndex = 1;
+            this.label12.Text = "TOTAL PRICE:";
+            // 
+            // costTotal
+            // 
+            this.costTotal.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.costTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.costTotal.Location = new System.Drawing.Point(386, 2);
+            this.costTotal.Name = "costTotal";
+            this.costTotal.Size = new System.Drawing.Size(110, 17);
+            this.costTotal.TabIndex = 4;
+            // 
+            // label14
+            // 
+            this.label14.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Location = new System.Drawing.Point(506, 2);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(44, 17);
+            this.label14.TabIndex = 5;
+            this.label14.Text = "NET:";
+            // 
+            // netIncome
+            // 
+            this.netIncome.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.netIncome.AutoSize = true;
+            this.netIncome.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.netIncome.Location = new System.Drawing.Point(560, 2);
+            this.netIncome.Name = "netIncome";
+            this.netIncome.Size = new System.Drawing.Size(0, 17);
+            this.netIncome.TabIndex = 6;
             // 
             // clockPanel
             // 
@@ -1561,11 +1740,11 @@ namespace POS
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(882, 453);
+            this.Controls.Add(this.historyPanel);
             this.Controls.Add(this.inventoryPanel);
             this.Controls.Add(this.orderPanel);
-            this.Controls.Add(this.historyPanel);
-            this.Controls.Add(this.clockPanel);
             this.Controls.Add(this.menuPanel);
+            this.Controls.Add(this.clockPanel);
             this.Name = "POS";
             this.Text = "POS";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
@@ -1600,6 +1779,10 @@ namespace POS
             this.tableLayoutPanel14.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.historyTable)).EndInit();
             this.tableLayoutPanel30.ResumeLayout(false);
+            this.tableLayoutPanel31.ResumeLayout(false);
+            this.tableLayoutPanel31.PerformLayout();
+            this.tableLayoutPanel32.ResumeLayout(false);
+            this.tableLayoutPanel32.PerformLayout();
             this.clockPanel.ResumeLayout(false);
             this.tableLayoutPanel12.ResumeLayout(false);
             this.tableLayoutPanel12.PerformLayout();
@@ -1731,6 +1914,19 @@ namespace POS
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel30;
         private System.Windows.Forms.Button loadHistory;
         private System.Windows.Forms.ComboBox cmbOptionHistory;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel31;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Button filterDate;
+        private System.Windows.Forms.DateTimePicker dateTimePicker2;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel32;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label priceTotal;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label costTotal;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label netIncome;
     }
 }
 
